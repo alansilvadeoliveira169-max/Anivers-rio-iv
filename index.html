@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nosso Scrapbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f9f6f0;
+      --card-bg: #ffffff;
+      --text: #2d2d2d;
+      --accent: #e63946;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      --font-body: 'Nunito', sans-serif;
+      --font-hand: 'Caveat', cursive;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* Hero / Header */
+    .hero {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .polaroid {
+      background: var(--card-bg);
+      padding: 1rem 1rem 2.5rem 1rem;
+      box-shadow: var(--shadow);
+      border-radius: 4px;
+      transform: rotate(-2deg);
+      transition: transform 0.3s ease;
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .polaroid:hover { transform: rotate(0deg) scale(1.02); }
+
+    .polaroid img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+
+    .polaroid .caption {
+      font-family: var(--font-hand);
+      font-size: 1.8rem;
+      margin-top: 0.8rem;
+      color: #444;
+    }
+
+    /* Timer counter */
+    .counter {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .time-card {
+      background: var(--card-bg);
+      padding: 0.8rem 1.2rem;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .time-card span {
+      display: block;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .time-card label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #777;
+    }
+
+    /* Galeria Scrapbook */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .gallery .polaroid {
+      max-width: 100%;
+    }
+
+    .gallery .polaroid:nth-child(even) { transform: rotate(2deg); }
+    .gallery .polaroid:nth-child(3n) { transform: rotate(-1deg); }
+
+    /* Seção da Carta */
+    .letter-section {
+      text-align: center;
+      width: 100%;
+    }
+
+    .btn-letter {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.9rem 2rem;
+      font-size: 1.1rem;
+      font-family: var(--font-body);
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-letter:hover {
+      background: #d62839;
+      transform: translateY(-2px);
+    }
+
+    .letter-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease;
+      opacity: 0;
+      background: var(--card-bg);
+      padding: 0 2rem;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+
+    .letter-content.open {
+      max-height: 1000px;
+      opacity: 1;
+      padding: 2rem;
+      transition: max-height 0.8s ease-in-out, opacity 0.5s ease;
+    }
+
+    .letter-content p {
+      margin-bottom: 1rem;
+      font-size: 1.05rem;
+    }
+
+    .letter-signature {
+      font-family: var(--font-hand);
+      font-size: 2rem;
+      text-align: right;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <main class="container hero">
+    <div class="polaroid">
+      <img src="https://picsum.photos/400/400?random=1" alt="Foto Principal">
+      <div class="caption">Nós Dois ❤️</div>
+    </div>
+
+    <!-- Contador de tempo de relacionamento -->
+    <div class="counter" id="timer">
+      <div class="time-card"><span id="days">0</span><label>Dias</label></div>
+      <div class="time-card"><span id="hours">0</span><label>Horas</label></div>
+      <div class="time-card"><span id="minutes">0</span><label>Minutos</label></div>
+      <div class="time-card"><span id="seconds">0</span><label>Segundos</label></div>
+    </div>
+  </main>
+
+  <!-- Galeria de Momentos -->
+  <section class="container gallery">
+    <div class="polaroid">
+      <img src="https://picsum.photos/400/400?random=2" alt="Momento 1">
+      <div class="caption">Primeiro Date</div>
+    </div>
+    <div class="polaroid">
+      <img src="https://picsum.photos/400/400?random=3" alt="Momento 2">
+      <div class="caption">Viagem Especial</div>
+    </div>
+    <div class="polaroid">
+      <img src="https://picsum.photos/400/400?random=4" alt="Momento 3">
+      <div class="caption">Risadas</div>
+    </div>
+  </section>
+
+  <!-- Carta / Envelope -->
+  <section class="container letter-section">
+    <button class="btn-letter" id="toggleLetter">Ler a Carta 💌</button>
+    <div class="letter-content" id="letter">
+      <p>Querido(a),</p>
+      <p>Escrevo esta mensagem para lembrar o quanto cada momento ao seu lado é especial. Que este dia seja repleto de sorrisos, memórias incríveis e muito amor.</p>
+      <p>Obrigado(a) por ser exatamente quem você é!</p>
+      <div class="letter-signature">Com todo amor, Seu Nome</div>
+    </div>
+  </section>
+
+  <script>
+    // 1. Otimização do Contador (Altere para a sua data inicial)
+    const startDate = new Date('2023-01-01T00:00:00');
+
+    function updateCounter() {
+      const now = new Date();
+      const diff = now - startDate;
+
+      const seconds = Math.floor((diff / 1000) % 60);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+      document.getElementById('days').innerText = days;
+      document.getElementById('hours').innerText = hours;
+      document.getElementById('minutes').innerText = minutes;
+      document.getElementById('seconds').innerText = seconds;
+    }
+
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    // 2. Animação da Carta (Abre e fecha com CSS limpo)
+    const btn = document.getElementById('toggleLetter');
+    const letter = document.getElementById('letter');
+
+    btn.addEventListener('click', () => {
+      const isOpen = letter.classList.toggle('open');
+      btn.innerText = isOpen ? 'Fechar Carta ✉️' : 'Ler a Carta 💌';
+    });
+  </script>
+</body>
+</html>
